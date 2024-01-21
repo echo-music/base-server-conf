@@ -1,0 +1,14 @@
+version: '3'
+services:
+  common_mysql:
+    container_name: common_mysql
+    image: mysql:8.0.25
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/etc/my.cnf:/etc/mysql/my.cnf
+
+    ports:
+      - 3306:3306
