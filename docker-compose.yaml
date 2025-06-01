@@ -1,7 +1,7 @@
 version: '3'
 services:
-  common_mysql:
-    container_name: common_mysql
+  local_mysql:
+    container_name: local_mysql
     image: mysql:8.0.25
     restart: always
     environment:
@@ -12,3 +12,31 @@ services:
 
     ports:
       - 3306:3306
+  local_redis:
+    image: redis:6.2.6
+    container_name: local_redis
+    command: redis-server /usr/local/etc/redis/redis.conf
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis/data:/data
+      - ./redis/etc/redis.conf:/usr/local/etc/redis/redis.conf
+  es:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.8.20
+    container_name: elasticsearch
+    ports:
+      - "9200:9200"
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+      - xpack.security.enabled=false
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.8.20
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    depends_on:
+      - es    
+    
+  
+  
