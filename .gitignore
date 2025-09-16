@@ -1,4 +1,5 @@
-mysql/data
-redis/data
+mysql/data/*
+redis/data/*
 
 .idea/*
+redis/.DS_Store
