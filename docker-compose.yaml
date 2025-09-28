@@ -36,20 +36,20 @@ services:
 #      - "5601:5601"
 #    depends_on:
 #      - es
-    rabbitmq:
-      image: rabbitmq:4-management  # 使用带有管理插件的镜像:cite[8]:cite[9]
-      container_name: local_rabbitmq  # 为容器指定一个名字，方便管理
-      restart: always  # 设置容器总是自动重启，避免因意外退出服务中断:cite[3]:cite[5]:cite[9]
-      ports:
-        - "5672:5672"  # AMQP 协议端口，应用程序连接使用:cite[2]:cite[4]
-        - "15672:15672" # Web 管理界面端口:cite[2]:cite[4]
-      environment:
-        - RABBITMQ_DEFAULT_USER=admin  # 设置默认用户名:cite[2]:cite[3]:cite[7]
-        - RABBITMQ_DEFAULT_PASS=admin123  # 设置对应用户的密码:cite[2]:cite[3]:cite[7]
-        # - RABBITMQ_DEFAULT_VHOST=my_vhost  # （可选）设置默认虚拟主机:cite[2]:cite[3]:cite[10]
-      volumes:
-        - ./rabbitmq/data:/var/lib/rabbitmq  # 将数据持久化到主机当前目录的 rabbitmq 文件夹，防止容器删除后数据丢失:cite[2]:cite[9]
-        # - ./etc/rabbitmq:/etc/rabbitmq  # （可选）挂载自定义配置文件目录:cite[2]
-    
-  
-  
+  local_rabbitmq:
+    image: rabbitmq:4-management  # 使用带有管理插件的镜像:cite[8]:cite[9]
+    container_name: local_rabbitmq  # 为容器指定一个名字，方便管理
+    restart: always  # 设置容器总是自动重启，避免因意外退出服务中断:cite[3]:cite[5]:cite[9]
+    ports:
+      - "5672:5672"  # AMQP 协议端口，应用程序连接使用:cite[2]:cite[4]
+      - "15672:15672" # Web 管理界面端口:cite[2]:cite[4]
+    environment:
+      - RABBITMQ_DEFAULT_USER=root  # 设置默认用户名:cite[2]:cite[3]:cite[7]
+      - RABBITMQ_DEFAULT_PASS=123456  # 设置对应用户的密码:cite[2]:cite[3]:cite[7]
+      # - RABBITMQ_DEFAULT_VHOST=my_vhost  # （可选）设置默认虚拟主机:cite[2]:cite[3]:cite[10]
+    volumes:
+      - ./rabbitmq/data:/var/lib/rabbitmq  # 将数据持久化到主机当前目录的 rabbitmq 文件夹，防止容器删除后数据丢失:cite[2]:cite[9]
+      # - ./etc/rabbitmq:/etc/rabbitmq  # （可选）挂载自定义配置文件目录:cite[2]
+
+
+
