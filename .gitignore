@@ -3,3 +3,4 @@ redis/data/*
 
 .idea/*
 redis/.DS_Store
+rabbitmq/data/*
