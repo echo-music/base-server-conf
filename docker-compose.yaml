@@ -46,7 +46,9 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=root  # 设置默认用户名:cite[2]:cite[3]:cite[7]
       - RABBITMQ_DEFAULT_PASS=123456  # 设置对应用户的密码:cite[2]:cite[3]:cite[7]
-      # - RABBITMQ_DEFAULT_VHOST=my_vhost  # （可选）设置默认虚拟主机:cite[2]:cite[3]:cite[10]
+      - RABBITMQ_DEFAULT_VHOST=dev  # （可选）设置默认虚拟主机:cite[2]:cite[3]:cite[10]
+      - RABBITMQ_LOOPBACK_USERS=false  # 关键环境变量：允许默认用户远程连接
+
     volumes:
       - ./rabbitmq/data:/var/lib/rabbitmq  # 将数据持久化到主机当前目录的 rabbitmq 文件夹，防止容器删除后数据丢失:cite[2]:cite[9]
       # - ./etc/rabbitmq:/etc/rabbitmq  # （可选）挂载自定义配置文件目录:cite[2]
