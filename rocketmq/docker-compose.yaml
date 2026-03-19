@@ -1,0 +1,97 @@
+
+services:
+  # NameServer - 服务发现与元数据管理
+  namesrv:
+    image: apache/rocketmq:5.3.2
+    container_name: rmqnamesrv
+    ports:
+      - "9876:9876"
+    volumes:
+      - ./data/namesrv/logs:/home/rocketmq/logs
+      - ./data/namesrv/store:/home/rocketmq/store
+    networks:
+      - rocketmq
+    command: sh mqnamesrv
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+
+  # Broker - 消息存储核心
+  broker:
+    image: apache/rocketmq:5.3.2
+    container_name: rmqbroker
+    ports:
+      - "10909:10909"
+      - "10911:10911"
+      - "10912:10912"
+    volumes:
+      - ./data/broker/logs:/home/rocketmq/logs
+      - ./data/broker/store:/home/rocketmq/store
+      - ./config/broker.conf:/home/rocketmq/rocketmq-5.3.2/conf/broker.conf
+    environment:
+      - NAMESRV_ADDR=namesrv:9876
+      - JAVA_OPT_EXT=-Xms512m -Xmx1g -Xmn256m
+    depends_on:
+      - namesrv
+    networks:
+      - rocketmq
+    command: sh mqbroker -c /home/rocketmq/rocketmq-5.3.2/conf/broker.conf
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 2G
+
+  # Proxy - 统一接入层 (RocketMQ 5.x 特性)
+  proxy:
+    image: apache/rocketmq:5.3.2
+    container_name: rmqproxy
+    depends_on:
+      - broker
+      - namesrv
+    ports:
+      - "8080:8080" # gRPC 端口
+      - "8081:8081" # HTTP 端口
+    environment:
+      - NAMESRV_ADDR=namesrv:9876
+    networks:
+      - rocketmq
+    command: sh mqproxy
+    restart: on-failure:5 # 失败时最多重试5次
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+  # Dashboard - 控制面板/管理界面[citation:1][citation:2]
+
+  dashboard:
+    image: apacherocketmq/rocketmq-dashboard:latest
+    container_name: rmq-dashboard
+    ports:
+      - "8180:8082" # 将容器内8080端口映射到宿主机的8180端口[citation:2]
+    environment:
+      - JAVA_OPTS=-Xmx256m -Xms128m
+      # 关键：配置Dashboard连接的NameServer地址[citation:1][citation:2]
+      - rocketmq.config.namesrvAddr=namesrv:9876
+    depends_on:
+      - broker
+      - namesrv
+      - proxy
+    networks:
+      - rocketmq
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.3'
+          memory: 256M
+
+networks:
+  rocketmq:
+    driver: bridge

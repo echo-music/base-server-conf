@@ -37,16 +37,16 @@ services:
 #    depends_on:
 #      - es
   local_rabbitmq:
-    image: rabbitmq:4-management  # 使用带有管理插件的镜像:cite[8]:cite[9]
+    image: rabbitmq:4-management  # 使用带有管理插件的镜像
     container_name: local_rabbitmq  # 为容器指定一个名字，方便管理
-    restart: always  # 设置容器总是自动重启，避免因意外退出服务中断:cite[3]:cite[5]:cite[9]
+    restart: always  # 设置容器总是自动重启，避免因意外退出服务中断
     ports:
-      - "5672:5672"  # AMQP 协议端口，应用程序连接使用:cite[2]:cite[4]
-      - "15672:15672" # Web 管理界面端口:cite[2]:cite[4]
+      - "5672:5672"  # AMQP 协议端口，应用程序连接使用
+      - "15672:15672" # Web 管理界面端口
     environment:
-      - RABBITMQ_DEFAULT_USER=root  # 设置默认用户名:cite[2]:cite[3]:cite[7]
-      - RABBITMQ_DEFAULT_PASS=123456  # 设置对应用户的密码:cite[2]:cite[3]:cite[7]
-      - RABBITMQ_DEFAULT_VHOST=dev  # （可选）设置默认虚拟主机:cite[2]:cite[3]:cite[10]
+      - RABBITMQ_DEFAULT_USER=root  # 设置默认用户名
+      - RABBITMQ_DEFAULT_PASS=123456  # 设置对应用户的密码
+      - RABBITMQ_DEFAULT_VHOST=dev  # （可选）设置默认虚拟主机
       - RABBITMQ_LOOPBACK_USERS=false  # 关键环境变量：允许默认用户远程连接
 
     volumes:

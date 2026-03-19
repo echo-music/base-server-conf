@@ -1,6 +1,7 @@
-mysql/data/*
-redis/data/*
-
-.idea/*
+mysql/data
+redis/data
+.idea
 redis/.DS_Store
-rabbitmq/data/*
+rabbitmq/data
+.DS_Store
+rocketmq/data
