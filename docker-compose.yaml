@@ -4,6 +4,7 @@ services:
     image: mysql:8.0.40
     restart: always
     environment:
+      TZ: Asia/Shanghai
       MYSQL_ROOT_PASSWORD: 123456
     volumes:
       - ./mysql/data:/var/lib/mysql
