@@ -99,9 +99,9 @@ services:
     hostname: rabbitmq-node-1
     environment:
       - TZ=Asia/Shanghai
-      - RABBITMQ_DEFAULT_USER=rabbitmq_admin  # 修改默认用户名
-      - RABBITMQ_DEFAULT_PASS=Rabbitmq@Secure2024!  # 强密码
-      - RABBITMQ_DEFAULT_VHOST=/production  # 生产虚拟主机
+      - RABBITMQ_DEFAULT_USER=root  # 修改默认用户名
+      - RABBITMQ_DEFAULT_PASS=123456  # 强密码
+      - RABBITMQ_DEFAULT_VHOST=/dev  # 生产虚拟主机
       - RABBITMQ_LOOPBACK_USERS=guest  # 只允许 guest 本地连接
     ports:
       - "5672:5672"   # AMQP 端口
@@ -139,7 +139,3 @@ services:
 networks:
   base-network:
     driver: bridge
-    ipam:
-      config:
-        - subnet: 172.22.0.0/16
-          gateway: 172.22.0.1
