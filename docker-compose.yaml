@@ -1,28 +1,80 @@
+
 services:
+  # ============================ MySQL 生产级配置 ============================
   local_mysql:
     container_name: local_mysql
     image: mysql:8.0.40
     restart: always
+    hostname: mysql-host
     environment:
       TZ: Asia/Shanghai
-      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: "Mysql@Secure2024!"  # 强密码建议
+      MYSQL_ROOT_HOST: "%"
+      LANG: C.UTF-8
     volumes:
       - ./mysql/data:/var/lib/mysql
       - ./mysql/etc/my.cnf:/etc/mysql/my.cnf
       - ./mysql/logs:/var/log/mysql
-
     ports:
       - "3306:3306"
+    networks:
+      - base-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+  # ============================ Redis 生产级配置 ============================
   local_redis:
     image: redis:7.2.7
     container_name: local_redis
     restart: always
-    command: redis-server /usr/local/etc/redis/redis.conf
+    hostname: redis-host
+    command: >
+      redis-server /usr/local/etc/redis/redis.conf
+      --appendonly yes
+      --appendfsync everysec
+      --maxmemory 1gb
+      --maxmemory-policy allkeys-lru
     ports:
       - "6379:6379"
     volumes:
       - ./redis/data:/data
       - ./redis/etc/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./redis/logs:/var/log/redis
+    networks:
+      - base-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1.5G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
 #  es:
 #    image: docker.elastic.co/elasticsearch/elasticsearch:6.8.20
 #    container_name: elasticsearch
@@ -39,22 +91,55 @@ services:
 #      - "5601:5601"
 #    depends_on:
 #      - es
+  # ============================ RabbitMQ 生产级配置 ============================
   local_rabbitmq:
-    image: rabbitmq:4.2.5-management  # 使用带有管理插件的镜像
-    container_name: local_rabbitmq  # 为容器指定一个名字，方便管理
-    restart: always  # 设置容器总是自动重启，避免因意外退出服务中断
-    ports:
-      - "5672:5672"  # AMQP 协议端口，应用程序连接使用
-      - "15672:15672" # Web 管理界面端口
+    image: rabbitmq:4.2.5-management
+    container_name: local_rabbitmq
+    restart: always
+    hostname: rabbitmq-node-1
     environment:
-      - RABBITMQ_DEFAULT_USER=root  # 设置默认用户名
-      - RABBITMQ_DEFAULT_PASS=123456  # 设置对应用户的密码
-      - RABBITMQ_DEFAULT_VHOST=dev  # （可选）设置默认虚拟主机
-      - RABBITMQ_LOOPBACK_USERS=false  # 关键环境变量：允许默认用户远程连接
-
+      - TZ=Asia/Shanghai
+      - RABBITMQ_DEFAULT_USER=rabbitmq_admin  # 修改默认用户名
+      - RABBITMQ_DEFAULT_PASS=Rabbitmq@Secure2024!  # 强密码
+      - RABBITMQ_DEFAULT_VHOST=/production  # 生产虚拟主机
+      - RABBITMQ_LOOPBACK_USERS=guest  # 只允许 guest 本地连接
+    ports:
+      - "5672:5672"   # AMQP 端口
+      - "15672:15672" # 管理界面
+      - "15692:15692" # Prometheus 监控
     volumes:
-      - ./rabbitmq/data:/var/lib/rabbitmq  # 将数据持久化到主机当前目录的 rabbitmq 文件夹，防止容器删除后数据丢失:cite[2]:cite[9]
-      # - ./etc/rabbitmq:/etc/rabbitmq  # （可选）挂载自定义配置文件目录:cite[2]
+      - ./rabbitmq/data:/var/lib/rabbitmq
+      - ./rabbitmq/logs:/var/log/rabbitmq
+      - ./rabbitmq/conf/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+    networks:
+      - base-network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    sysctls:
+      - net.core.somaxconn=65536
+      - net.ipv4.tcp_max_syn_backlog=65536
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
 
-
-
+# ============================ 网络配置 ============================
+networks:
+  base-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.22.0.0/16
+          gateway: 172.22.0.1
