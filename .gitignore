@@ -1,4 +1,5 @@
 mysql/data
+mysql/logs
 redis/data
 .idea
 redis/.DS_Store
