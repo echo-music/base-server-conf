@@ -37,7 +37,7 @@ services:
 #    depends_on:
 #      - es
   local_rabbitmq:
-    image: rabbitmq:4-management  # 使用带有管理插件的镜像
+    image: rabbitmq:4.2.5-management  # 使用带有管理插件的镜像
     container_name: local_rabbitmq  # 为容器指定一个名字，方便管理
     restart: always  # 设置容器总是自动重启，避免因意外退出服务中断
     ports:
