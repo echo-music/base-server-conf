@@ -6,3 +6,4 @@ redis/.DS_Store
 rabbitmq/data
 .DS_Store
 rocketmq/data
+minio/data

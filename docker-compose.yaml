@@ -134,6 +134,43 @@ services:
       nofile:
         soft: 65536
         hard: 65536
+  # ============================ MinIO 对象存储 ============================
+  local_minio:
+    image: minio/minio:latest
+    container_name: local_minio
+    restart: always
+    hostname: minio-host
+    environment:
+      - TZ=Asia/Shanghai
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin2024!
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"  # API 端口
+      - "9001:9001"  # Web 控制台端口
+    volumes:
+      - ./minio/data:/data
+      - ./minio/logs:/logs
+    networks:
+      - base-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
 
 # ============================ 网络配置 ============================
 networks:
