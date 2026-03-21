@@ -1,6 +1,6 @@
 mysql/data
 mysql/logs
-redis/data
+redis/data/*
 .idea
 redis/.DS_Store
 rabbitmq/data
