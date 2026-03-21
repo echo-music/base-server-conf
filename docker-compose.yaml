@@ -8,7 +8,7 @@ services:
     hostname: mysql-host
     environment:
       TZ: Asia/Shanghai
-      MYSQL_ROOT_PASSWORD: "Mysql@Secure2024!"  # 强密码建议
+      MYSQL_ROOT_PASSWORD: "123456"  # 强密码建议
       MYSQL_ROOT_HOST: "%"
       LANG: C.UTF-8
     volumes:
@@ -151,6 +151,7 @@ services:
     volumes:
       - ./minio/data:/data
       - ./minio/logs:/logs
+      - ./minio/config:/root/.minio
     networks:
       - base-network
     healthcheck:
