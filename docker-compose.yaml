@@ -136,7 +136,7 @@ services:
         hard: 65536
   # ============================ MinIO 对象存储 ============================
   local_minio:
-    image: quay.io/minio/minio:latest
+    image: minio/minio:RELEASE.2025-04-22T22-12-26Z
     container_name: local_minio
     restart: always
     hostname: minio-host
