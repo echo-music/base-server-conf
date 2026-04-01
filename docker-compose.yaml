@@ -1,4 +1,3 @@
-
 services:
   # ============================ MySQL 生产级配置 ============================
   local_mysql:
@@ -8,22 +7,24 @@ services:
     hostname: mysql-host
     environment:
       TZ: Asia/Shanghai
-      MYSQL_ROOT_PASSWORD: "123456"  # 强密码建议
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:-123456}"
       MYSQL_ROOT_HOST: "%"
       LANG: C.UTF-8
     volumes:
       - ./mysql/data:/var/lib/mysql
       - ./mysql/etc/my.cnf:/etc/mysql/my.cnf
       - ./mysql/logs:/var/log/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
+      - ./mysql/backup:/backup
     ports:
       - "3306:3306"
     networks:
       - base-network
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-123456}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
       start_period: 60s
     deploy:
       resources:
@@ -37,6 +38,10 @@ services:
       nofile:
         soft: 65536
         hard: 65536
+    # 优雅关闭：给 MySQL 60 秒时间完成事务和刷盘
+    stop_grace_period: 60s
+    stop_signal: SIGTERM
+
   # ============================ Redis 生产级配置 ============================
   local_redis:
     image: redis:7.2.7
@@ -49,20 +54,24 @@ services:
       --appendfsync everysec
       --maxmemory 1gb
       --maxmemory-policy allkeys-lru
+      --save 900 1
+      --save 300 10
+      --save 60 10000
     ports:
       - "6379:6379"
     volumes:
       - ./redis/data:/data
       - ./redis/etc/redis.conf:/usr/local/etc/redis/redis.conf
       - ./redis/logs:/var/log/redis
+      - ./redis/backup:/backup
     networks:
       - base-network
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 30s
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
     deploy:
       resources:
         limits:
@@ -75,22 +84,10 @@ services:
       nofile:
         soft: 65536
         hard: 65536
-#  es:
-#    image: docker.elastic.co/elasticsearch/elasticsearch:6.8.20
-#    container_name: elasticsearch
-#    ports:
-#      - "9200:9200"
-#    environment:
-#      - discovery.type=single-node
-#      - ES_JAVA_OPTS=-Xms1g -Xmx1g
-#      - xpack.security.enabled=false
-#  kibana:
-#    image: docker.elastic.co/kibana/kibana:6.8.20
-#    container_name: kibana
-#    ports:
-#      - "5601:5601"
-#    depends_on:
-#      - es
+    # 优雅关闭：Redis 会执行 RDB 持久化
+    stop_grace_period: 30s
+    stop_signal: SIGTERM
+
   # ============================ RabbitMQ 生产级配置 ============================
   local_rabbitmq:
     image: rabbitmq:4.2.5-management
@@ -99,10 +96,12 @@ services:
     hostname: rabbitmq-node-1
     environment:
       - TZ=Asia/Shanghai
-      - RABBITMQ_DEFAULT_USER=root  # 修改默认用户名
-      - RABBITMQ_DEFAULT_PASS=123456  # 强密码
-      - RABBITMQ_DEFAULT_VHOST=/dev  # 生产虚拟主机
-      - RABBITMQ_LOOPBACK_USERS=guest  # 只允许 guest 本地连接
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER:-root}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS:-123456}
+      - RABBITMQ_DEFAULT_VHOST=/dev
+      - RABBITMQ_LOOPBACK_USERS=guest
+      # 启用高可用队列
+      - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbitmq_management load_definitions "/etc/rabbitmq/definitions.json"
     ports:
       - "5672:5672"   # AMQP 端口
       - "15672:15672" # 管理界面
@@ -111,13 +110,15 @@ services:
       - ./rabbitmq/data:/var/lib/rabbitmq
       - ./rabbitmq/logs:/var/log/rabbitmq
       - ./rabbitmq/conf/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - ./rabbitmq/conf/definitions.json:/etc/rabbitmq/definitions.json
+      - ./rabbitmq/backup:/backup
     networks:
       - base-network
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+      interval: 10s
+      timeout: 5s
+      retries: 5
       start_period: 60s
     deploy:
       resources:
@@ -134,11 +135,10 @@ services:
       nofile:
         soft: 65536
         hard: 65536
-    command: >
-      sh -c "
-        rabbitmq-plugins enable --offline rabbitmq_delayed_message_exchange &&
-        rabbitmq-server
-      "
+    # 优雅关闭：给 RabbitMQ 60 秒时间完成消息处理
+    stop_grace_period: 60s
+    stop_signal: SIGTERM
+
   # ============================ MinIO 对象存储 ============================
   local_minio:
     image: minio/minio:RELEASE.2025-04-22T22-12-26Z
@@ -147,8 +147,10 @@ services:
     hostname: minio-host
     environment:
       - TZ=Asia/Shanghai
-      - MINIO_ROOT_USER=minioadmin
-      - MINIO_ROOT_PASSWORD=minioadmin2024!
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER:-minioadmin}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD:-minioadmin2024!}
+      # 启用纠删码，提供数据冗余
+#      - MINIO_STORAGE_CLASS_STANDARD=EC:2
     command: server /data --console-address ":9001"
     ports:
       - "9000:9000"  # API 端口
@@ -157,13 +159,14 @@ services:
       - ./minio/data:/data
       - ./minio/logs:/logs
       - ./minio/config:/root/.minio
+      - ./minio/backup:/backup
     networks:
       - base-network
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+      interval: 10s
+      timeout: 5s
+      retries: 5
       start_period: 30s
     deploy:
       resources:
@@ -177,8 +180,15 @@ services:
       nofile:
         soft: 65536
         hard: 65536
+    # 优雅关闭
+    stop_grace_period: 30s
+    stop_signal: SIGTERM
 
 # ============================ 网络配置 ============================
 networks:
   base-network:
     driver: bridge
+    # 配置网络以防止 IP 变化导致的问题
+    ipam:
+      config:
+        - subnet: 172.30.0.0/16
