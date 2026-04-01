@@ -38,7 +38,6 @@ services:
       nofile:
         soft: 65536
         hard: 65536
-    # 优雅关闭：给 MySQL 60 秒时间完成事务和刷盘
     stop_grace_period: 60s
     stop_signal: SIGTERM
 
@@ -84,7 +83,6 @@ services:
       nofile:
         soft: 65536
         hard: 65536
-    # 优雅关闭：Redis 会执行 RDB 持久化
     stop_grace_period: 30s
     stop_signal: SIGTERM
 
@@ -100,17 +98,14 @@ services:
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS:-123456}
       - RABBITMQ_DEFAULT_VHOST=/dev
       - RABBITMQ_LOOPBACK_USERS=guest
-      # 启用高可用队列
-      - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbitmq_management load_definitions "/etc/rabbitmq/definitions.json"
     ports:
-      - "5672:5672"   # AMQP 端口
-      - "15672:15672" # 管理界面
-      - "15692:15692" # Prometheus 监控
+      - "5672:5672"
+      - "15672:15672"
+      - "15692:15692"
     volumes:
       - ./rabbitmq/data:/var/lib/rabbitmq
       - ./rabbitmq/logs:/var/log/rabbitmq
       - ./rabbitmq/conf/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
-      - ./rabbitmq/conf/definitions.json:/etc/rabbitmq/definitions.json
       - ./rabbitmq/backup:/backup
     networks:
       - base-network
@@ -135,7 +130,11 @@ services:
       nofile:
         soft: 65536
         hard: 65536
-    # 优雅关闭：给 RabbitMQ 60 秒时间完成消息处理
+    command: >
+      sh -c "
+        rabbitmq-plugins enable --offline rabbitmq_delayed_message_exchange &&
+        rabbitmq-server
+      "
     stop_grace_period: 60s
     stop_signal: SIGTERM
 
@@ -149,12 +148,10 @@ services:
       - TZ=Asia/Shanghai
       - MINIO_ROOT_USER=${MINIO_ROOT_USER:-minioadmin}
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD:-minioadmin2024!}
-      # 启用纠删码，提供数据冗余
-#      - MINIO_STORAGE_CLASS_STANDARD=EC:2
     command: server /data --console-address ":9001"
     ports:
-      - "9000:9000"  # API 端口
-      - "9001:9001"  # Web 控制台端口
+      - "9000:9000"
+      - "9001:9001"
     volumes:
       - ./minio/data:/data
       - ./minio/logs:/logs
@@ -180,15 +177,12 @@ services:
       nofile:
         soft: 65536
         hard: 65536
-    # 优雅关闭
     stop_grace_period: 30s
     stop_signal: SIGTERM
 
-# ============================ 网络配置 ============================
 networks:
   base-network:
     driver: bridge
-    # 配置网络以防止 IP 变化导致的问题
     ipam:
       config:
         - subnet: 172.30.0.0/16
