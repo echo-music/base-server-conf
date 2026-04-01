@@ -134,6 +134,11 @@ services:
       nofile:
         soft: 65536
         hard: 65536
+    command: >
+      sh -c "
+        rabbitmq-plugins enable --offline rabbitmq_delayed_message_exchange &&
+        rabbitmq-server
+      "
   # ============================ MinIO 对象存储 ============================
   local_minio:
     image: minio/minio:RELEASE.2025-04-22T22-12-26Z
