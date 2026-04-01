@@ -1,0 +1,10 @@
+2026/04/01 03:28:47 [emerg] 1#1: host not found in upstream "${API_HOST}" in /etc/nginx/nginx.conf:39
+2026/04/01 03:28:56 [emerg] 1#1: host not found in upstream "${API_HOST}" in /etc/nginx/nginx.conf:39
+2026/04/01 03:29:04 [emerg] 1#1: host not found in upstream "${API_HOST}" in /etc/nginx/nginx.conf:39
+2026/04/01 03:29:12 [emerg] 1#1: host not found in upstream "${API_HOST}" in /etc/nginx/nginx.conf:39
+2026/04/01 03:29:20 [emerg] 1#1: host not found in upstream "${API_HOST}" in /etc/nginx/nginx.conf:39
+2026/04/01 03:29:28 [emerg] 1#1: host not found in upstream "${API_HOST}" in /etc/nginx/nginx.conf:39
+2026/04/01 03:29:36 [emerg] 1#1: host not found in upstream "${API_HOST}" in /etc/nginx/nginx.conf:39
+2026/04/01 03:29:48 [emerg] 1#1: host not found in upstream "${API_HOST}" in /etc/nginx/nginx.conf:39
+2026/04/01 03:30:06 [emerg] 1#1: host not found in upstream "${API_HOST}" in /etc/nginx/nginx.conf:39
+2026/04/01 03:30:37 [emerg] 1#1: host not found in upstream "${API_HOST}" in /etc/nginx/nginx.conf:39
