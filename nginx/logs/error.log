@@ -37,3 +37,81 @@
 2026/04/01 03:36:22 [emerg] 1#1: host not found in upstream "${API_HOST}" in /etc/nginx/nginx.conf:39
 2026/04/01 03:36:52 [emerg] 1#1: host not found in upstream "${API_HOST}" in /etc/nginx/nginx.conf:39
 2026/04/01 03:37:49 [emerg] 1#1: host not found in upstream "${API_HOST}" in /etc/nginx/nginx.conf:39
+2026/04/01 03:38:54 [emerg] 1#1: host not found in upstream "${API_HOST}" in /etc/nginx/nginx.conf:39
+2026/04/01 03:39:32 [emerg] 1#1: host not found in upstream "${API_HOST}" in /etc/nginx/nginx.conf:39
+2026/04/01 03:39:40 [emerg] 1#1: host not found in upstream "${API_HOST}" in /etc/nginx/nginx.conf:39
+2026/04/01 03:39:48 [emerg] 1#1: host not found in upstream "${API_HOST}" in /etc/nginx/nginx.conf:39
+2026/04/01 03:39:56 [emerg] 1#1: host not found in upstream "${API_HOST}" in /etc/nginx/nginx.conf:39
+2026/04/01 03:40:05 [emerg] 1#1: host not found in upstream "${API_HOST}" in /etc/nginx/nginx.conf:39
+2026/04/01 03:40:13 [emerg] 1#1: "env" directive is not allowed here in /etc/nginx/conf.d/default.conf:5
+2026/04/01 03:40:16 [emerg] 1#1: "env" directive is not allowed here in /etc/nginx/conf.d/default.conf:5
+2026/04/01 03:40:23 [emerg] 1#1: "env" directive is not allowed here in /etc/nginx/conf.d/default.conf:5
+2026/04/01 03:40:36 [emerg] 1#1: "env" directive is not allowed here in /etc/nginx/conf.d/default.conf:5
+2026/04/01 03:41:01 [emerg] 1#1: host not found in upstream "${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:46:56 [emerg] 9#9: host not found in upstream "${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:47:04 [emerg] 9#9: host not found in upstream "${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:47:13 [emerg] 9#9: host not found in upstream "${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:47:21 [emerg] 9#9: host not found in upstream "${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:47:29 [emerg] 9#9: host not found in upstream "${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:47:37 [emerg] 9#9: host not found in upstream "${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:47:45 [emerg] 9#9: host not found in upstream "${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:47:57 [emerg] 9#9: host not found in upstream "${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:48:20 [emerg] 9#9: host not found in upstream "${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:48:28 [emerg] 9#9: host not found in upstream "${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:48:37 [emerg] 9#9: host not found in upstream "${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:48:45 [emerg] 9#9: host not found in upstream "${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:48:57 [emerg] 9#9: host not found in upstream "${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:49:11 [emerg] 10#10: host not found in upstream "${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:49:19 [emerg] 11#11: host not found in upstream "${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:49:32 [emerg] 9#9: host not found in upstream "$${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:49:41 [emerg] 10#10: host not found in upstream "$${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:49:49 [emerg] 10#10: host not found in upstream "$${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:49:57 [emerg] 10#10: host not found in upstream "$${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:50:05 [emerg] 10#10: host not found in upstream "$${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:50:13 [emerg] 9#9: host not found in upstream "$${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:50:21 [emerg] 10#10: host not found in upstream "$${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:50:33 [emerg] 10#10: host not found in upstream "$${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:50:41 [emerg] 10#10: host not found in upstream "$${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:50:49 [emerg] 10#10: host not found in upstream "$${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:50:58 [emerg] 10#10: host not found in upstream "$${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:51:06 [emerg] 10#10: host not found in upstream "$${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:51:14 [emerg] 10#10: host not found in upstream "$${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:51:22 [emerg] 10#10: host not found in upstream "$${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:51:30 [emerg] 10#10: host not found in upstream "$${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:51:42 [emerg] 10#10: host not found in upstream "$${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:51:53 [emerg] 10#10: host not found in upstream "$${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:52:01 [emerg] 10#10: host not found in upstream "$${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:52:10 [emerg] 10#10: host not found in upstream "$${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:52:18 [emerg] 10#10: host not found in upstream "$${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:52:26 [emerg] 10#10: host not found in upstream "$${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:52:34 [emerg] 10#10: host not found in upstream "$${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:52:42 [emerg] 10#10: host not found in upstream "$${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:52:54 [emerg] 10#10: host not found in upstream "$${API_HOST}" in /etc/nginx/conf.d/default.conf:7
+2026/04/01 03:53:12 [emerg] 10#10: unexpected "}" in /etc/nginx/conf.d/default.conf:8
+2026/04/01 03:53:28 [warn] 10#10: conflicting server name "_" on 0.0.0.0:80, ignored
+2026/04/01 03:54:23 [error] 12#12: *1 directory index of "/usr/share/nginx/html/" is forbidden, client: 178.128.69.202, server: _, request: "GET / HTTP/1.1", host: "127.0.0.1"
+2026/04/01 03:54:23 [error] 12#12: *1 open() "/usr/share/nginx/html/favicon.ico" failed (2: No such file or directory), client: 178.128.69.202, server: _, request: "GET /favicon.ico HTTP/1.1", host: "127.0.0.1", referrer: "http://127.0.0.1/"
+2026/04/01 03:54:55 [error] 12#12: *1 rewrite or internal redirection cycle while internally redirecting to "/index.html", client: 178.128.69.202, server: _, request: "GET /health HTTP/1.1", host: "127.0.0.1"
+2026/04/01 03:58:08 [error] 20#20: *1 rewrite or internal redirection cycle while internally redirecting to "/index.html", client: 178.128.69.202, server: _, request: "GET /nginx_status HTTP/1.1", host: "127.0.0.1"
+2026/04/01 03:59:20 [error] 21#21: *2 access forbidden by rule, client: 178.128.69.202, server: _, request: "GET /nginx_status HTTP/1.1", host: "127.0.0.1"
+2026/04/01 03:59:44 [error] 24#24: *2 access forbidden by rule, client: 178.128.69.202, server: _, request: "GET /nginx_status HTTP/1.1", host: "127.0.0.1"
+2026/04/01 03:59:45 [error] 24#24: *2 access forbidden by rule, client: 178.128.69.202, server: _, request: "GET /nginx_status HTTP/1.1", host: "127.0.0.1"
+2026/04/01 03:59:45 [error] 24#24: *2 access forbidden by rule, client: 178.128.69.202, server: _, request: "GET /nginx_status HTTP/1.1", host: "127.0.0.1"
+2026/04/01 04:00:18 [error] 21#21: *1 access forbidden by rule, client: 178.128.69.202, server: _, request: "GET /nginx_status HTTP/1.1", host: "127.0.0.1"
+2026/04/01 04:00:19 [error] 21#21: *1 access forbidden by rule, client: 178.128.69.202, server: _, request: "GET /nginx_status HTTP/1.1", host: "127.0.0.1"
+2026/04/01 04:00:49 [error] 21#21: *1 access forbidden by rule, client: 178.128.69.202, server: _, request: "GET /nginx_status HTTP/1.1", host: "127.0.0.1"
+2026/04/01 04:00:49 [error] 21#21: *1 access forbidden by rule, client: 178.128.69.202, server: _, request: "GET /nginx_status HTTP/1.1", host: "127.0.0.1"
+2026/04/01 04:00:50 [error] 21#21: *1 access forbidden by rule, client: 178.128.69.202, server: _, request: "GET /nginx_status HTTP/1.1", host: "127.0.0.1"
+2026/04/01 04:00:50 [error] 21#21: *1 access forbidden by rule, client: 178.128.69.202, server: _, request: "GET /nginx_status HTTP/1.1", host: "127.0.0.1"
+2026/04/01 04:01:10 [error] 21#21: *1 access forbidden by rule, client: 178.128.69.202, server: _, request: "GET /nginx_status HTTP/1.1", host: "127.0.0.1"
+2026/04/01 04:02:02 [error] 23#23: *1 access forbidden by rule, client: 178.128.69.202, server: _, request: "GET /nginx_status HTTP/1.1", host: "127.0.0.1"
+2026/04/01 04:02:03 [error] 23#23: *1 access forbidden by rule, client: 178.128.69.202, server: _, request: "GET /nginx_status HTTP/1.1", host: "127.0.0.1"
+2026/04/01 04:02:04 [error] 23#23: *1 access forbidden by rule, client: 178.128.69.202, server: _, request: "GET /nginx_status HTTP/1.1", host: "127.0.0.1"
+2026/04/01 04:02:04 [error] 23#23: *1 access forbidden by rule, client: 178.128.69.202, server: _, request: "GET /nginx_status HTTP/1.1", host: "127.0.0.1"
+2026/04/01 04:02:16 [error] 21#21: *1 access forbidden by rule, client: 178.128.69.202, server: _, request: "GET /nginx_status HTTP/1.1", host: "127.0.0.1"
+2026/04/01 04:02:17 [error] 21#21: *1 access forbidden by rule, client: 178.128.69.202, server: _, request: "GET /nginx_status HTTP/1.1", host: "127.0.0.1"
+2026/04/01 04:02:18 [error] 21#21: *1 access forbidden by rule, client: 178.128.69.202, server: _, request: "GET /nginx_status HTTP/1.1", host: "127.0.0.1"
+2026/04/01 04:02:18 [error] 21#21: *1 access forbidden by rule, client: 178.128.69.202, server: _, request: "GET /nginx_status HTTP/1.1", host: "127.0.0.1"
+2026/04/01 04:02:18 [error] 21#21: *1 access forbidden by rule, client: 178.128.69.202, server: _, request: "GET /nginx_status HTTP/1.1", host: "127.0.0.1"
+2026/04/01 04:02:18 [error] 21#21: *1 access forbidden by rule, client: 178.128.69.202, server: _, request: "GET /nginx_status HTTP/1.1", host: "127.0.0.1"
+2026/04/01 04:02:18 [error] 21#21: *1 access forbidden by rule, client: 178.128.69.202, server: _, request: "GET /nginx_status HTTP/1.1", host: "127.0.0.1"
