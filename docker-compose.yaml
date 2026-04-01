@@ -88,7 +88,7 @@ services:
 
   # ============================ RabbitMQ 生产级配置 ============================
   local_rabbitmq:
-    image: rabbitmq:4.2.5-management
+    image: rabbitmq:4.2.5-delayed
     container_name: local_rabbitmq
     restart: always
     hostname: rabbitmq-node-1
@@ -130,11 +130,6 @@ services:
       nofile:
         soft: 65536
         hard: 65536
-    command: >
-      sh -c "
-        rabbitmq-plugins enable --offline rabbitmq_delayed_message_exchange &&
-        rabbitmq-server
-      "
     stop_grace_period: 60s
     stop_signal: SIGTERM
 
